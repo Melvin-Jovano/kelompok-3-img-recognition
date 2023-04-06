@@ -1,5 +1,5 @@
+# Uncomment below line if u run it in Colab
 # !pip install tensorflow
-# !pip install numpy
 
 import numpy as np
 import tensorflow as tf
