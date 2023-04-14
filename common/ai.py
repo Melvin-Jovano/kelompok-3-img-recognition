@@ -29,7 +29,7 @@ def predict(processedImg, imgList):
     decode = tf.keras.applications.vgg16.decode_predictions(preds, top=3)
     result = []
     for i in range(len(processedImg)):
-        predicted = {"Image" : imgList[i], "Predicted" : decode[i]}
+        predicted = {"Image" : f"img/{imgList[i]}", "Predicted" : decode[i]}
         print(f"Img : {predicted['Image']}\nPredicted : {predicted['Predicted']}")
         print("")
         result.append(predicted)

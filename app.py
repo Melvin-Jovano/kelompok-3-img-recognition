@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import os
+import shutil
 import uuid
 from common.ai import preprocess, predict
 
@@ -18,7 +19,12 @@ def submit():
             img = str(uuid.uuid4()) + '.' + fileName[len(fileName) - 1]
             file.save(os.path.join('img', img))
             # imgList.append(img)
-    predict(preprocess(os.listdir("img")), os.listdir("img"))
+    res = predict(preprocess(os.listdir("img")), os.listdir("img"))
+    for r in res:
+        path = os.path.join('public', r["Predicted"][0][1])
+        if not os.path.exists(path):
+            os.mkdir(path)
+        shutil.move(r["Image"], path)
     
     return 'Files uploaded successfully'
 
