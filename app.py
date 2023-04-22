@@ -3,8 +3,22 @@ import os
 import shutil
 import uuid
 from common.ai import preprocess, predict
+from common.utils import getListDir
 
 app = Flask(__name__, template_folder='templates')
+
+@app.route('/album')
+def album():
+    listDir = getListDir('public')
+    albums = []
+
+    for d in listDir:
+        obj = {}
+        obj['title'] = d.replace('_', ' ').title()
+        obj['link'] = d
+        albums.append(obj)
+
+    return 'placeholder'
 
 @app.route('/')
 def form():
@@ -18,10 +32,7 @@ def submit():
             img = str(uuid.uuid4()) + '.' + fileName[len(fileName) - 1]
             file.save(os.path.join('img', img))
 
-    # for MACOS + github
-    listDir = os.listdir("img")
-    listDir.remove('.DS_Store')
-    listDir.remove('.placeholder')
+    listDir = getListDir('img')
 
     res = predict(preprocess(listDir), listDir)
 
