@@ -12,14 +12,19 @@ def form():
 
 @app.route('/', methods=['POST'])
 def submit():
-    # imgList = []
     for file in request.files.getlist('images'):
         if file.content_type.startswith('image/'):
             fileName = file.filename.split('.')
             img = str(uuid.uuid4()) + '.' + fileName[len(fileName) - 1]
             file.save(os.path.join('img', img))
-            # imgList.append(img)
-    res = predict(preprocess(os.listdir("img")), os.listdir("img"))
+
+    # for MACOS + github
+    listDir = os.listdir("img")
+    listDir.remove('.DS_Store')
+    listDir.remove('.placeholder')
+
+    res = predict(preprocess(listDir), listDir)
+
     for r in res:
         path = os.path.join('public', r["Predicted"][0][1])
         if not os.path.exists(path):
