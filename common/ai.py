@@ -26,7 +26,5 @@ def predict(processedImg, imgList):
     result = []
     for i in range(len(processedImg)):
         predicted = {"Image" : f"img/{imgList[i]}", "Predicted" : decode[i]}
-        print(f"Img : {predicted['Image']}\nPredicted : {predicted['Predicted']}")
-        print("")
         result.append(predicted)
     return result

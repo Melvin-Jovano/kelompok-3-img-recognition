@@ -5,7 +5,11 @@ import uuid
 from common.ai import preprocess, predict
 from common.utils import getListDir
 
-app = Flask(__name__, template_folder='templates')
+app = Flask(__name__, template_folder='templates', static_folder='public')
+
+@app.template_filter('twodecimals')
+def twodecimals(value):
+    return "{:.2f}".format(value)
 
 @app.route('/album')
 def album():
@@ -42,7 +46,7 @@ def submit():
             os.mkdir(path)
         shutil.move(r["Image"], path)
     
-    return 'Files uploaded successfully'
+    return render_template('result.jinja', result=res)
 
 if __name__ == '__main__':
     app.run(debug=True)
