@@ -11,8 +11,8 @@ app = Flask(__name__, template_folder='templates', static_folder='public')
 def twodecimals(value):
     return "{:.2f}".format(value)
 
-@app.route('/album')
-def album():
+@app.route('/album-list')
+def album_list():
     listDir = getListDir('public')
     albums = []
 
@@ -22,7 +22,12 @@ def album():
         obj['link'] = d
         albums.append(obj)
 
-    return 'placeholder'
+    return render_template('list.jinja', album=albums)
+
+@app.route('/album/<album>')
+def album(album):
+    listDir = getListDir(f'public/{album}')
+    return album
 
 @app.route('/')
 def form():
