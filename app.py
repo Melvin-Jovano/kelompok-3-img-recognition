@@ -27,7 +27,7 @@ def album_list():
 @app.route('/album/<album>')
 def album(album):
     listDir = getListDir(f'public/{album}')
-    return album
+    return render_template('galery.jinja', gallery=listDir, path=album)
 
 @app.route('/')
 def form():
